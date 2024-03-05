@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import fs from "fs";
 
-const privateKey = fs.readFileSync("jwtRS256.key").toString();
+const privateKey = fs.readFileSync(process.env.JWT_TOKEN_FILENAME).toString();
 
 export default (req, res, next) => {
   const { token } = req.body;

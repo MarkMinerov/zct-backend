@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon index.mjs --mode=development",
-    "prod": "node index.mjs --mode=production"
+    "prod": "node keygen.mjs && node index.mjs --mode=production",
+    "keygen": "node keygen.mjs"
   },
   "keywords": [],
   "author": "",
