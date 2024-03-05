@@ -1,0 +1,47 @@
+version: "3"
+services:
+  db:
+    image: mariadb:latest
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: 123
+      MARIADB_DATABASE: users
+    networks:
+      - application_network
+
+  mnist_model_serving:
+    image: tensorflow/serving
+    ports:
+      - "8501:8501"
+    volumes:
+      - type: bind
+        source: ./server/ai/mnist_model
+        target: /models/mnist_model
+    environment:
+      - MODEL_NAME=mnist_model
+    command:
+      - --model_base_path=/models/mnist_model
+      - --rest_api_port=8501
+      - --model_name=mnist_model
+    networks:
+      - application_network
+
+  application:
+    ports:
+      - "5000:5000"
+    build:
+      context: ./server
+    depends_on:
+      - db
+    networks:
+      - application_network
+
+networks:
+  application_network:
+    driver: bridge
+
+volumes:
+  db-data:
