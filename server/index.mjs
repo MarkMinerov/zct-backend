@@ -33,7 +33,7 @@ let dbConfig;
 
 switch (MODE) {
   case "production": {
-    const index = path.join(__dirname, "build");
+    const index = path.join(__dirname, process.env.WEB_BUILD_NAME_FOLDER_NAME);
     app.use(express.static(index));
     AI_URL = `${process.env.MODEL_API_URL_PROD}/${MODEL_NAME}`;
     dbConfig = { host: process.env.DB_HOST_PROD };
